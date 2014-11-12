@@ -1,0 +1,12 @@
+.answers {
+  display: none;
+  padding-bottom: 10px;
+}
+
+#next {
+  display: none;
+}
+
+#again {
+  display: none;
+}
