@@ -29,10 +29,21 @@ $(document).ready(function(){
 
   $("button#previous").click(function() {
     currentQuestion = quiz.previousQuestion(currentQuestion);
-    start(); 
+    start();
   });
 
-  $("button#next").click(function() {
+  $("button#next").click(function(event) {
+    var isClicked = $("input").data('clicked');
+    var clicked = 0;
+    currentQuestion.choices.forEach(function(choice) {
+      if (isClicked === 'yes') {
+        clicked++;
+      }
+    });
+    if (clicked === 0) {
+      alert("Please make a selection!");
+      return;
+    } 
     currentQuestion = quiz.nextQuestion(currentQuestion);
     if (quiz.allQuestions.indexOf(currentQuestion) !== 0) {
       start(); 
@@ -42,16 +53,18 @@ $(document).ready(function(){
   });
 
   var start = function() {
+    $("button#previous").hide();
     $("button#next").show();
     if (quiz.allQuestions.indexOf(currentQuestion) > 0) {
       $("button#previous").show(); 
-    }
+    } 
     $("div.question").empty();
     $("div.question").append(currentQuestion['question']);
     currentQuestion.choices.forEach(function(choice) {
-      $("div.question").append("<p><input type='radio' value=" + currentQuestion.choices.indexOf(choice) + " class='choice' name='choice'>" + " " + choice + " " + "</input></p>");
+      $("div.question").append("<p><input type='radio' data-clicked='no' value=" + currentQuestion.choices.indexOf(choice) + " class='choice' name='choice'>" + " " + choice + " " + "</input></p>");
     });
-    $("input[type='radio']").click(function(){
+    $("input[type='radio']").on('click', function(){
+      $("input").data('clicked', 'yes');
       var chosen = parseInt($(".choice:checked").val());
       if (chosen === currentQuestion.correctAnswer) {
         quiz.score += 20;
