@@ -3,6 +3,12 @@
   padding-bottom: 10px;
 }
 
+#previous {
+  display: none;
+  background-color: yellow;
+  color: black;
+}
+
 #next {
   display: none;
 }
