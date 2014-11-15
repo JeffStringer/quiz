@@ -9,10 +9,20 @@
   color: black;
 }
 
+#previous:hover {
+  background-color: #FFF000;
+}
+
 #next {
   display: none;
 }
 
 #again {
   display: none;
+}
+
+#select {
+  color: red;
+  font-weight: bold;
+  font-style: italic;
 }
