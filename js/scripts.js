@@ -1,3 +1,4 @@
+//put your logic here
 var Quiz = {
   initialize: function() {
     this.allQuestions = [ {question: "What is 1 + 1?", choices: ["3", "2", "1", "0"], correctAnswer:1, myAnswer: ''},
@@ -46,13 +47,14 @@ $(document).ready(function(){
   });
 
   $("button#next").click(function() {
+    $("#choice" + currentQuestion.myAnswer).prop("checked", true);
     if ($("#select")) {
       $("#select").remove();
     }
     if (currentQuestion.myAnswer === '') {
       $("div.question").prepend("<p id='select'>Please make a selection.</p>");
       return;
-    } 
+    }
     currentQuestion = quiz.nextQuestion(currentQuestion);
     if (quiz.allQuestions.indexOf(currentQuestion) !== 0) {
       start(); 
@@ -71,6 +73,9 @@ $(document).ready(function(){
     $("div.question").append("<p>" + currentQuestion['question'] + "</p>");
     currentQuestion.choices.forEach(function(choice) {
       $("div.question").append("<p><input type='radio' id='choice" + currentQuestion.choices.indexOf(choice) + "' value=" + currentQuestion.choices.indexOf(choice) + " class='choice' name='choice'>" + " " + choice + " " + "</input></p>");
+      if (currentQuestion.myAnswer !== '') {
+        $("#choice" + currentQuestion.myAnswer).prop("checked", true);
+      }  
     });
     $("input[type='radio']").click(function(){
       var chosen = parseInt($(".choice:checked").val());
