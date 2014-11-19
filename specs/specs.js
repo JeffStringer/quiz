@@ -74,3 +74,16 @@ describe("Quiz", function() {
     });
   });
 });
+
+describe("User", function() {
+  describe("initialize", function() {
+    it("creates a new user", function() {
+      var newUser = new Object(User);
+      newUser.initialize("John", "Smith", "john@gmail.com", "johnny18");
+      newUser.firstName.should.equal("John");
+      newUser.lastName.should.equal("Smith");
+      newUser.email.should.equal("john@gmail.com");
+      newUser.password.should.equal("johnny18")
+    });
+  });
+});

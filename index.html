@@ -11,13 +11,46 @@
   <body>
     <div class="container">
       <div class="row">
-        <h1>Quiz!</h1>
-        <div class="question"></div>
-        <button id="begin" class="btn btn-success">Begin!</button>
-        <button id="previous" class="btn btn-danger">Back</button>
-        <button id="next" class="btn btn-danger">Next</button>
-        <button id="again" class="btn btn-warning">Take Again!</button>
-        </br>
+        <div class="col-md-4">
+          <h1>Quiz!</h1>
+          <div id="result"></div>
+          <div class="question"></div>
+          <button id="begin" class="btn btn-success">Begin!</button>
+          <button id="previous" class="btn btn-danger">Back</button>
+          <button id="next" class="btn btn-danger">Next</button>
+          <button id="again" class="btn btn-warning">Take Again!</button>
+          </br>
+        </div>  
+        <div class="col-md-4">
+          <div class="signup">
+            <h1>Signup</h1>
+            <span id="signup-problem"></span>
+            <form role="form" data-toggle="validator">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="firstName" class="form-control" id="firstName" placeholder="First Name">
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="lastName" class="form-control" id="lastName" placeholder="Last Name">
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Password">
+              </div>
+              <div class="form-group">
+                <label>Password Confirmation</label>
+                <input type="password" class="form-control" id="passwordConfirmation" placeholder="Password Confirmation">
+              </div>
+              <button type="submit" id="signup" class="btn btn-default">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>    
     </div>
   </body>
 </html>

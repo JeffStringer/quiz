@@ -1,4 +1,3 @@
-//put your logic here
 var Quiz = {
   initialize: function() {
     this.allQuestions = [ {question: "What is 1 + 1?", choices: ["3", "2", "1", "0"], correctAnswer:1, myAnswer: ''},
@@ -29,7 +28,55 @@ var Quiz = {
   }
 }
 
+var User = {
+  initialize: function(firstName, lastName, email, password) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+  }
+}
+
 $(document).ready(function(){
+  Storage.prototype.setObj = function(key, obj) {
+    return this.setItem(key, JSON.stringify(obj))
+  }
+  Storage.prototype.getObj = function(key) {
+      return JSON.parse(this.getItem(key))
+  }
+
+  $("button#signup").click(function() {
+    var firstName = $("#firstName").val();
+    var lastName = $("#lastName").val();
+    var email = $("#email").val();
+    var password = $("#password").val();
+    var passwordConfirmation = $("#passwordConfirmation").val();
+    var items = [firstName,lastName,email,password,passwordConfirmation];
+    var verified = false;
+    items.forEach(function(item) {
+      if (item !== '') {
+        if (password === passwordConfirmation) {
+          verified = true;
+        } else {
+          //$("span#signup-problem").prepend("<p>Passwords do not match.</p>");
+          alert("Passwords do not match!");
+          return;
+        }
+      } else {
+        $("span#signup-problem").prepend("<p>Fields can not be blank.</p>");
+      }
+    });
+    if (verified) {
+      var user = Object.create(User);
+      user.initialize(firstName,lastName,email,password);
+      alert("Welcome " + user.firstName);
+      localStorage.setObj(user.email, user);
+    }
+  });
+
+  console.log(localStorage);
+
+
   var quiz = Object.create(Quiz);
   quiz.initialize();
 
