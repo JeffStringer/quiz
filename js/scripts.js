@@ -37,13 +37,25 @@ var User = {
   }
 }
 
+Storage.prototype.setObj = function(key, obj) {
+  return this.setItem(key, JSON.stringify(obj))
+}
+
+Storage.prototype.getObj = function(key) {
+    return JSON.parse(this.getItem(key))
+}
+
 $(document).ready(function(){
-  Storage.prototype.setObj = function(key, obj) {
-    return this.setItem(key, JSON.stringify(obj))
-  }
-  Storage.prototype.getObj = function(key) {
-      return JSON.parse(this.getItem(key))
-  }
+
+  $("button#signup-show").click(function() {
+    $("div.user").hide();
+    $("div.signup").show();
+  });
+
+  $("button#login-show").click(function() {
+    $("div.user").hide();
+    $("div.login").show();
+  });
 
   $("button#signup").click(function() {
     var firstName = $("#firstName").val();
@@ -75,7 +87,6 @@ $(document).ready(function(){
   });
 
   console.log(localStorage);
-
 
   var quiz = Object.create(Quiz);
   quiz.initialize();

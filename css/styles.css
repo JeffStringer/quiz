@@ -1,3 +1,21 @@
+.quiz {
+  display: none;
+  padding-top: 20 px;
+}
+
+.signup {
+  display: none;
+  padding-top: 20 px;
+}
+
+.login {
+  display: none;
+}
+
+button#signup-show, button#login-show {
+  margin-top: 20px;
+}
+
 .answers {
   display: none;
   padding-bottom: 10px;

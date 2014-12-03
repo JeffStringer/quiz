@@ -11,8 +11,12 @@
   <body>
     <div class="container">
       <div class="row">
-        <div class="col-md-4">
-          <h1>Quiz!</h1>
+        <div class="user col-md-12">
+          <h1>Read to take the quiz?  Please sign up or log in:</h1>
+          <button id="signup-show" class="btn btn-default">Sign Up</button>
+          <button id="login-show" class="btn btn-default">Login</button>
+        </div>
+        <div class="quiz col-md-4">
           <div id="result"></div>
           <div class="question"></div>
           <button id="begin" class="btn btn-success">Begin!</button>
@@ -23,7 +27,7 @@
         </div>  
         <div class="col-md-4">
           <div class="signup">
-            <h1>Signup</h1>
+            <h1>Sign Up</h1>
             <span id="signup-problem"></span>
             <form role="form" data-toggle="validator">
               <div class="form-group">
@@ -49,6 +53,22 @@
               <button type="submit" id="signup" class="btn btn-default">Submit</button>
             </form>
           </div>
+          <div class="login">
+            <h1>Log In</h1>
+            <span id="signup-problem"></span>
+            <form role="form" data-toggle="validator">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Password">
+              </div>
+              <button type="submit" id="login" class="btn btn-default">Submit</button>
+            </form>
+          </div>
+
         </div>
       </div>    
     </div>
