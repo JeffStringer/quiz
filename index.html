@@ -13,10 +13,11 @@
       <div class="row">
         <div class="user col-md-12">
           <h1>Read to take the quiz?  Please sign up or log in:</h1>
-          <button id="signup-show" class="btn btn-default">Sign Up</button>
-          <button id="login-show" class="btn btn-default">Login</button>
+          <button id="signup-show" class="btn btn-success">Sign Up</button>
+          <button id="login-show" class="btn btn-danger">Login</button>
         </div>
         <div class="quiz col-md-4">
+          <h1>Quiz</h1>
           <div id="result"></div>
           <div class="question"></div>
           <button id="begin" class="btn btn-success">Begin!</button>
@@ -59,16 +60,15 @@
             <form role="form" data-toggle="validator">
               <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Email">
+                <input type="email" class="form-control" id="email-login" placeholder="Email">
               </div>
               <div class="form-group">
                 <label>Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Password">
+                <input type="password" class="form-control" id="password-login" placeholder="Password">
               </div>
               <button type="submit" id="login" class="btn btn-default">Submit</button>
             </form>
           </div>
-
         </div>
       </div>    
     </div>

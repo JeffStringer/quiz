@@ -83,7 +83,8 @@ describe("User", function() {
       newUser.firstName.should.equal("John");
       newUser.lastName.should.equal("Smith");
       newUser.email.should.equal("john@gmail.com");
-      newUser.password.should.equal("johnny18")
+      newUser.password.should.equal("johnny18");
+      newUser.loggedin.should.equal(false);
     });
   });
 });

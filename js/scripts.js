@@ -34,6 +34,7 @@ var User = {
     this.lastName = lastName;
     this.email = email;
     this.password = password;
+    this.loggedin = false;
   }
 }
 
@@ -46,6 +47,10 @@ Storage.prototype.getObj = function(key) {
 }
 
 $(document).ready(function(){
+
+  console.log(localStorage);
+  var user = Object.create(User);
+  // var currentUser;
 
   $("button#signup-show").click(function() {
     $("div.user").hide();
@@ -63,6 +68,8 @@ $(document).ready(function(){
     var email = $("#email").val();
     var password = $("#password").val();
     var passwordConfirmation = $("#passwordConfirmation").val();
+    alert(email);
+    alert(password);
     var items = [firstName,lastName,email,password,passwordConfirmation];
     var verified = false;
     items.forEach(function(item) {
@@ -79,15 +86,35 @@ $(document).ready(function(){
       }
     });
     if (verified) {
-      var user = Object.create(User);
       user.initialize(firstName,lastName,email,password);
       alert("Welcome " + user.firstName);
       localStorage.setObj(user.email, user);
+      $("div.signup").hide();
     }
   });
 
-  console.log(localStorage);
+  $("button#login").click(function() {
+    var username = $("#email-login").val();
+    var password = $("#password-login").val();
+    if ((localStorage.getObj(username).email === username) && (localStorage.getObj(username).password === password)) {
+      user.initialize(localStorage.getObj(username).firstName,localStorage.getObj(username).lastName,localStorage.getObj(username).email,localStorage.getObj(username).password);
+      currentUser = user;
+      currentUser.loggedin = true;
+      alert(currentUser.firstName);
+      alert(currentUser.lastName);
+      alert(currentUser.email);
+      alert(currentUser.password);
+      alert(currentUser.loggedin);
+    } else {
+      alert("no quiz!")
+    }
+  });
 
+  if (currentUser.loggedin === true) {
+    alert('hi!');
+    $("div.user").hide();
+    $("div.quiz").show();
+  }
   var quiz = Object.create(Quiz);
   quiz.initialize();
 
