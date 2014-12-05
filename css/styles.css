@@ -29,6 +29,11 @@ button#signup:hover, button#login:hover {
   color: #FFC0CB;
 }
 
+#signup-problem {
+  color: red;
+  font-weight: bold;
+}
+
 .answers {
   display: none;
   padding-bottom: 10px;

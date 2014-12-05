@@ -46,6 +46,16 @@ Storage.prototype.getObj = function(key) {
     return JSON.parse(this.getItem(key))
 }
 
+var include = function(arr, obj) {
+    for(var i=0; i<arr.length; i++) {
+        if (arr[i] == obj) {
+          return true;
+        } else {
+          return false;
+        }
+    }
+}
+
 $(document).ready(function(){
 
   console.log(localStorage);
@@ -66,28 +76,27 @@ $(document).ready(function(){
     var email = $("#email").val();
     var password = $("#password").val();
     var passwordConfirmation = $("#passwordConfirmation").val();
-    alert(email);
-    alert(password);
     var items = [firstName,lastName,email,password,passwordConfirmation];
     var verified = false;
-    items.forEach(function(item) {
-      if (item !== '') {
-        if (password === passwordConfirmation) {
-          verified = true;
-        } else {
-          //$("span#signup-problem").prepend("<p>Passwords do not match.</p>");
-          alert("Passwords do not match!");
-          return;
-        }
+    if (include(items, "") === false) {
+      if (password === passwordConfirmation) {
+        verified = true;
       } else {
-        $("span#signup-problem").prepend("<p>Fields can not be blank.</p>");
+        $("span#signup-problem").prepend("<p>Passwords do not match!</p>");
+        $("#password").val("");
+        $("#passwordConfirmation").val("");
+        event.preventDefault();
       }
-    });
-    if (verified) {
+    } else {
+      $("span#signup-problem").prepend("<p>Fields can not be blank.</p>");
+      event.preventDefault();
+    }
+    if (verified === true) {
       user = Object.create(User);
       user.initialize(firstName,lastName,email,password);
       alert("Welcome " + user.firstName);
       localStorage.setObj(user.email, user);
+      quizBegin(user);
       $("div.signup").hide();
     }
   });
@@ -100,12 +109,10 @@ $(document).ready(function(){
       user.initialize(localStorage.getObj(username).firstName,localStorage.getObj(username).lastName,localStorage.getObj(username).email,localStorage.getObj(username).password);
       currentUser = user;
       currentUser.loggedin = true;
-      $("div.user").remove();
-      $("div.user").hide();
-      $("div.quiz").show();
       quizBegin(currentUser);
     } else {
-      alert("no quiz!")
+      $("span#signup-problem").prepend("<p>Email and/or password are not valid.</p>");
+       event.preventDefault();
     }
   });
 
@@ -171,7 +178,11 @@ $(document).ready(function(){
       $("button#next").remove();
       $("button#previous").remove(); 
       $("div.question").empty();
-      $("div.question").append("<h4>" + quizzee.firstName + ", your final score is: " + quiz.totalScore() + "</h4>");
+      if (quiz.totalScore() > 59) {
+        $("div.question").append("<h4>" + quizzee.firstName + ", your final score is: " + quiz.totalScore() + ". You passed!</h4>");
+      } else {
+        $("div.question").append("<h4> Oh no! " + quizzee.firstName + ", your final score is: " + quiz.totalScore() + ". You failed the quiz.</h4>")
+      }  
       $("button#again").show();
       $("button#again").click(function() {
         location.reload();
