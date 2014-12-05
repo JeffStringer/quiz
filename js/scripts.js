@@ -49,8 +49,6 @@ Storage.prototype.getObj = function(key) {
 $(document).ready(function(){
 
   console.log(localStorage);
-  var user = Object.create(User);
-  // var currentUser;
 
   $("button#signup-show").click(function() {
     $("div.user").hide();
@@ -86,6 +84,7 @@ $(document).ready(function(){
       }
     });
     if (verified) {
+      user = Object.create(User);
       user.initialize(firstName,lastName,email,password);
       alert("Welcome " + user.firstName);
       localStorage.setObj(user.email, user);
@@ -97,85 +96,86 @@ $(document).ready(function(){
     var username = $("#email-login").val();
     var password = $("#password-login").val();
     if ((localStorage.getObj(username).email === username) && (localStorage.getObj(username).password === password)) {
+      user = Object.create(User);
       user.initialize(localStorage.getObj(username).firstName,localStorage.getObj(username).lastName,localStorage.getObj(username).email,localStorage.getObj(username).password);
       currentUser = user;
       currentUser.loggedin = true;
-      alert(currentUser.firstName);
-      alert(currentUser.lastName);
-      alert(currentUser.email);
-      alert(currentUser.password);
-      alert(currentUser.loggedin);
+      $("div.user").remove();
+      $("div.user").hide();
+      $("div.quiz").show();
+      quizBegin(currentUser);
     } else {
       alert("no quiz!")
     }
   });
 
-  if (currentUser.loggedin === true) {
-    alert('hi!');
-    $("div.user").hide();
+  var quizBegin = function(quizzee) {
+    event.preventDefault();
     $("div.quiz").show();
-  }
-  var quiz = Object.create(Quiz);
-  quiz.initialize();
+    $("div.login").hide();
+      
+    var quiz = Object.create(Quiz);
+    quiz.initialize();
 
-  $("button#begin").click(function(event) {
-    $("button#begin").remove();
-    start();
-  });
-  
-  var currentQuestion = quiz.allQuestions[0];
-
-  $("button#previous").click(function() {
-    currentQuestion = quiz.previousQuestion(currentQuestion);
-    start();
-    $("#choice" + currentQuestion.myAnswer).prop("checked", true);
-  });
-
-  $("button#next").click(function() {
-    $("#choice" + currentQuestion.myAnswer).prop("checked", true);
-    if ($("#select")) {
-      $("#select").remove();
-    }
-    if (currentQuestion.myAnswer === '') {
-      $("div.question").prepend("<p id='select'>Please make a selection.</p>");
-      return;
-    }
-    currentQuestion = quiz.nextQuestion(currentQuestion);
-    if (quiz.allQuestions.indexOf(currentQuestion) !== 0) {
-      start(); 
-    } else {
-      end();
-    }
-  });
-
-  var start = function() {
-    $("button#previous").hide();
-    $("button#next").show();
-    if (quiz.allQuestions.indexOf(currentQuestion) > 0) {
-      $("button#previous").show(); 
-    } 
-    $("div.question").empty();
-    $("div.question").append("<p>" + currentQuestion['question'] + "</p>");
-    currentQuestion.choices.forEach(function(choice) {
-      $("div.question").append("<p><input type='radio' id='choice" + currentQuestion.choices.indexOf(choice) + "' value=" + currentQuestion.choices.indexOf(choice) + " class='choice' name='choice'>" + " " + choice + " " + "</input></p>");
-      if (currentQuestion.myAnswer !== '') {
-        $("#choice" + currentQuestion.myAnswer).prop("checked", true);
-      }  
+    $("button#begin").click(function(event) {
+      $("button#begin").remove();
+      start();
     });
-    $("input[type='radio']").click(function(){
-      var chosen = parseInt($(".choice:checked").val());
-      quiz.markAnswer(currentQuestion,chosen); 
-    });
-  }
+    
+    var currentQuestion = quiz.allQuestions[0];
 
-  var end = function() {
-    $("button#next").remove();
-    $("button#previous").remove(); 
-    $("div.question").empty();
-    $("div.question").append("<h4>Your final score is: " + quiz.totalScore() + "</h4>");
-    $("button#again").show();
-    $("button#again").click(function() {
-      location.reload();
+    $("button#previous").click(function() {
+      currentQuestion = quiz.previousQuestion(currentQuestion);
+      start();
+      $("#choice" + currentQuestion.myAnswer).prop("checked", true);
     });
+
+    $("button#next").click(function() {
+      $("#choice" + currentQuestion.myAnswer).prop("checked", true);
+      if ($("#select")) {
+        $("#select").remove();
+      }
+      if (currentQuestion.myAnswer === '') {
+        $("div.question").prepend("<p id='select'>Please make a selection.</p>");
+        return;
+      }
+      currentQuestion = quiz.nextQuestion(currentQuestion);
+      if (quiz.allQuestions.indexOf(currentQuestion) !== 0) {
+        start(); 
+      } else {
+        end();
+      }
+    });
+
+    var start = function() {
+      $("button#previous").hide();
+      $("button#next").show();
+      if (quiz.allQuestions.indexOf(currentQuestion) > 0) {
+        $("button#previous").show(); 
+      } 
+      $("div.question").empty();
+      $("div.question").append("<p>" + currentQuestion['question'] + "</p>");
+      currentQuestion.choices.forEach(function(choice) {
+        $("div.question").append("<p><input type='radio' id='choice" + currentQuestion.choices.indexOf(choice) + "' value=" + currentQuestion.choices.indexOf(choice) + " class='choice' name='choice'>" + " " + choice + " " + "</input></p>");
+        if (currentQuestion.myAnswer !== '') {
+          $("#choice" + currentQuestion.myAnswer).prop("checked", true);
+        }  
+      });
+      $("input[type='radio']").click(function(){
+        var chosen = parseInt($(".choice:checked").val());
+        quiz.markAnswer(currentQuestion,chosen); 
+      });
+    }
+
+    var end = function() {
+      $("button#next").remove();
+      $("button#previous").remove(); 
+      $("div.question").empty();
+      $("div.question").append("<h4>" + quizzee.firstName + ", your final score is: " + quiz.totalScore() + "</h4>");
+      $("button#again").show();
+      $("button#again").click(function() {
+        location.reload();
+      });
+    }
   }
 });
